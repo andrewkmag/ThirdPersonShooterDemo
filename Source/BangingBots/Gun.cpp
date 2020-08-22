@@ -16,6 +16,29 @@ AGun::AGun()
 	Mesh->SetupAttachment(Root);
 }
 
+void AGun::PullTrigger()
+{
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	
+	// Adjust the PlayerViewPoint to be that of Player's Camera
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Pawn is Null!"));
+		return;
+	}
+
+	AController* OwnerController = OwnerPawn->GetController();
+	if (OwnerController == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Controller is Null!"));
+		return;
+	}
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 5.0f, FColor::Red, true);
+}
+
 // Called when the game starts or when spawned
 void AGun::BeginPlay()
 {

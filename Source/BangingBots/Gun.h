@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 #include "Gun.generated.h"
 
 UCLASS()
@@ -15,6 +17,8 @@ class BANGINGBOTS_API AGun : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AGun();
+
+	void PullTrigger();
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,4 +37,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		USkeletalMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* MuzzleFlash;
 };
