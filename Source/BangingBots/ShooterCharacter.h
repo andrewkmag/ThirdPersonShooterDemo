@@ -5,9 +5,9 @@
 #include "CoreMinimal.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/Character.h"
+#include "Gun.h"
 #include "Engine/World.h"
 #include "ShooterCharacter.generated.h"
-
 
 UCLASS()
 class BANGINGBOTS_API AShooterCharacter : public ACharacter
@@ -38,4 +38,12 @@ private:
 	// Property to adjust the look sensitivity (pitch & yaw)
 	UPROPERTY(EditAnywhere)
 		float RotationRate = 75; // Seperate this into Y-axis and X-axis??
+
+	// Configure class to be pointing to appropriate blueprint class
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<AGun> GunClass;
+
+	// Stores Actual Gun
+	UPROPERTY()
+		AGun* Gun;
 };

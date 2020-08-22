@@ -3,7 +3,6 @@
 
 #include "ShooterCharacter.h"
 
-
 // Sets default values
 AShooterCharacter::AShooterCharacter()
 {
@@ -17,6 +16,15 @@ void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Spawn Gun Actor
+	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
+
+	// Hide pre-made gun in Character's Skeletal Mesh
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
+	
+	// Attach Gun to added Socket on Character's Mesh via helper method
+	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
+	Gun->SetOwner(this);
 }
 
 // Called every frame
