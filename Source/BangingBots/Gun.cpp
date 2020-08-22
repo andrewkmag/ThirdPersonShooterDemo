@@ -26,17 +26,33 @@ void AGun::PullTrigger()
 		UE_LOG(LogTemp, Warning, TEXT("Pawn is Null!"));
 		return;
 	}
-
 	AController* OwnerController = OwnerPawn->GetController();
 	if (OwnerController == nullptr) {
 		UE_LOG(LogTemp, Warning, TEXT("Controller is Null!"));
 		return;
 	}
-
-	FVector Location;
+	FVector StartLocation;
 	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(Location, Rotation);
-	DrawDebugCamera(GetWorld(), Location, Rotation, 90, 5.0f, FColor::Red, true);
+	OwnerController->GetPlayerViewPoint(StartLocation, Rotation);
+
+	// Calculate end point for line tracing and spawn particle if collision occurs
+	FVector EndLocation = StartLocation + Rotation.Vector() * BulletRange;
+	FHitResult Hit;
+	bool HitSuccess = GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1);
+	if (HitSuccess) {
+		// Get Direction of where bullet came from and spawn particle at end location
+		FVector ShotDirection = -Rotation.Vector();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+		
+		// Create DamageEvent and deal damage to any actor that was hit
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor == nullptr) {
+			UE_LOG(LogTemp, Warning, TEXT("Actor is Null!"));
+			return;
+		}
+		FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotDirection, nullptr);
+		HitActor->TakeDamage(DamageAmount, DamageEvent, OwnerController, this);
+	}
 }
 
 // Called when the game starts or when spawned
