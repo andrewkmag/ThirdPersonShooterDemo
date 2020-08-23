@@ -38,7 +38,13 @@ void AGun::PullTrigger()
 	// Calculate end point for line tracing and spawn particle if collision occurs
 	FVector EndLocation = StartLocation + Rotation.Vector() * BulletRange;
 	FHitResult Hit;
-	bool HitSuccess = GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1);
+
+	// Ignoring AI Hitbox when attacking they attack
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	bool HitSuccess = GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1, Params);
 	if (HitSuccess) {
 		// Get Direction of where bullet came from and spawn particle at end location
 		FVector ShotDirection = -Rotation.Vector();

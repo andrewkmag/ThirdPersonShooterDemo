@@ -85,6 +85,14 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	Health -= DamageTaken;
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 	
+	// If character is dead detach controller and
+	// turn off capsule collision
+	if (IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+
 	return DamageTaken;
 }
 

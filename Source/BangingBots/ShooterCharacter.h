@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/InputComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 #include "Gun.h"
 #include "Engine/World.h"
