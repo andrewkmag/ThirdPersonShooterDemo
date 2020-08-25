@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacter.h"
 #include "EnemyAIController.generated.h"
 
 /**
@@ -18,6 +19,8 @@ class BANGINGBOTS_API AEnemyAIController : public AAIController
 
 public:
 	virtual void Tick(float DeltaSeconds) override;
+
+	bool IsDead() const;
 
 protected:
 	virtual void BeginPlay() override;
