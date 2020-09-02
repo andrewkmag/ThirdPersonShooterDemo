@@ -1,0 +1,11 @@
+.vs/
+.vscode/
+Binaries/
+Intermediate/
+Saved/
+Content/ParagonMinions/
+Content/AssetPacks/ModularSciFiSeason1
+Content/AssetPacks/ShooterGame
+Content/StarterContent/
+Content/FPS_Weapon_Bundle/
+BangingBots.code-workspace
