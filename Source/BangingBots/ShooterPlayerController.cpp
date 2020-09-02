@@ -4,10 +4,18 @@
 #include "ShooterPlayerController.h"
 
 
+void AShooterPlayerController::BeginPlay() 
+{
+    Super::BeginPlay();
+    HUDOverlay = CreateWidget(this, HUDClass);
+    HUDOverlay->AddToViewport();
+}
+
 void AShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner) 
 {
     Super::GameHasEnded(EndGameFocus, bIsWinner);
-
+    
+    HUDOverlay->RemoveFromViewport();
     // Display appropriate screen based on who is the winner (player vs AI)
     if (bIsWinner)
     {
@@ -28,3 +36,4 @@ void AShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIs
     // Restart after a 5 second timer
     GetWorldTimerManager().SetTimer(RestartTimer, this, &APlayerController::RestartLevel, RestartDelay);
 }
+

@@ -19,45 +19,22 @@ AGun::AGun()
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
-	
-	// Adjust the PlayerViewPoint to be that of Player's Camera
-	APawn* OwnerPawn = Cast<APawn>(GetOwner());
-	if (OwnerPawn == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("Pawn is Null!"));
-		return;
-	}
-	AController* OwnerController = OwnerPawn->GetController();
-	if (OwnerController == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("Controller is Null!"));
-		return;
-	}
-	FVector StartLocation;
-	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(StartLocation, Rotation);
-
-	// Calculate end point for line tracing and spawn particle if collision occurs
-	FVector EndLocation = StartLocation + Rotation.Vector() * BulletRange;
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 	FHitResult Hit;
-
-	// Ignoring AI Hitbox when attacking they attack
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
-
-	bool HitSuccess = GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1, Params);
+	FVector ShotDirection;
+	bool HitSuccess = GunLineTrace(Hit, ShotDirection);
 	if (HitSuccess) {
-		// Get Direction of where bullet came from and spawn particle at end location
-		FVector ShotDirection = -Rotation.Vector();
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
-		
-		// Create DamageEvent and deal damage to any actor that was hit
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, Hit.Location);
+
 		AActor* HitActor = Hit.GetActor();
-		if (HitActor == nullptr) {
-			UE_LOG(LogTemp, Warning, TEXT("Actor is Null!"));
-			return;
+		if (HitActor != nullptr)
+		{
+			// Create DamageEvent and deal damage to any actor that was hit
+			FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotDirection, nullptr);
+			AController* OwnerController = GetOwnerController();
+			HitActor->TakeDamage(DamageAmount, DamageEvent, OwnerController, this);
 		}
-		FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotDirection, nullptr);
-		HitActor->TakeDamage(DamageAmount, DamageEvent, OwnerController, this);
 	}
 }
 
@@ -73,5 +50,35 @@ void AGun::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+bool AGun::GunLineTrace(FHitResult& Hit, FVector& ShotDirection) 
+{
+
+	AController* OwnerController = GetOwnerController();
+	if (OwnerController == nullptr) return false;
+
+	FVector StartLocation;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(StartLocation, Rotation);
+	ShotDirection = -Rotation.Vector();
+	FVector EndLocation = StartLocation + Rotation.Vector() * BulletRange;
+	
+	// Ignoring AI Hitbox when attacking they attack
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
+
+	return GetWorld()->LineTraceSingleByChannel(Hit, StartLocation, EndLocation, ECollisionChannel::ECC_GameTraceChannel1, Params);
+}
+
+AController* AGun::GetOwnerController() const
+{
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("Pawn is Null!"));
+		return nullptr;
+	}
+	return OwnerPawn->GetController();
 }
 
