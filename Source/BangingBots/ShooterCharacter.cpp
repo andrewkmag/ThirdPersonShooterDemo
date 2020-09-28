@@ -2,6 +2,11 @@
 
 
 #include "ShooterCharacter.h"
+#include "Components/InputComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Gun.h"
+#include "Engine/World.h"
+#include "BangingBotsGameModeBase.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()

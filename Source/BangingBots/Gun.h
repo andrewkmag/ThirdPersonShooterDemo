@@ -4,10 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "DrawDebugHelpers.h"
 #include "Gun.generated.h"
+
+class USkeletalMeshComponent;
 
 UCLASS()
 class BANGINGBOTS_API AGun : public AActor

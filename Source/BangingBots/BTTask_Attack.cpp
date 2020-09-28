@@ -2,6 +2,8 @@
 
 
 #include "BTTask_Attack.h"
+#include "AIController.h"
+#include "ShooterCharacter.h"
 
 UBTTask_Attack::UBTTask_Attack()
 {

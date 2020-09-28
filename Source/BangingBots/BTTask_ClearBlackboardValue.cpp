@@ -2,6 +2,7 @@
 
 
 #include "BTTask_ClearBlackboardValue.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 UBTTask_ClearBlackboardValue::UBTTask_ClearBlackboardValue()
 {

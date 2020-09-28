@@ -3,10 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
 #include "BehaviorTree/Services/BTService_BlackboardBase.h"
-#include "Kismet/GameplayStatics.h"
-#include "BehaviorTree/BlackboardComponent.h"
 #include "BTService_PlayerLocationIfSeen.generated.h"
 
 /**

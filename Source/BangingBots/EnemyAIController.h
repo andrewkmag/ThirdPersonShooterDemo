@@ -4,11 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Kismet/GameplayStatics.h"
-#include "BehaviorTree/BlackboardComponent.h"
-#include "ShooterCharacter.h"
 #include "EnemyAIController.generated.h"
 
+
+class UBehaviorTree;
 /**
  * 
  */

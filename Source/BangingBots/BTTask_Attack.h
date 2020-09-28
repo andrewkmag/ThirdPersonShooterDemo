@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "AIController.h"
-#include "ShooterCharacter.h"
 #include "BTTask_Attack.generated.h"
 
 /**

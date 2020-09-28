@@ -2,6 +2,9 @@
 
 
 #include "EnemyAIController.h"
+#include "Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacter.h"
 
 void AEnemyAIController::BeginPlay()
 {

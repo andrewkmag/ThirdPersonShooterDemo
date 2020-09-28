@@ -5,8 +5,6 @@
 #include "CoreMinimal.h"
 #include "BangingBotsGameModeBase.h"
 #include "EngineUtils.h"
-#include "GameFramework/Controller.h"
-#include "EnemyAIController.h"
 #include "FireFightGameMode.generated.h"
 
 /**
@@ -20,6 +18,8 @@ class BANGINGBOTS_API AFireFightGameMode : public ABangingBotsGameModeBase
 public:
 	virtual void PawnKilled(APawn* PawnKilled) override;
 
+	// Returns the number of remaining enemies in world
+	int getRemainingEnemies() const;
 private:
 	void EndGame(bool bIsPlayerWinner);
 };

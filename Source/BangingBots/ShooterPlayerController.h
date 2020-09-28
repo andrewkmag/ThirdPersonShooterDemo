@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "TimerManager.h"
-#include "Blueprint/UserWidget.h"
 #include "ShooterPlayerController.generated.h"
 
 /**

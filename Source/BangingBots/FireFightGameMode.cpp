@@ -2,7 +2,8 @@
 
 
 #include "FireFightGameMode.h"
-
+#include "GameFramework/Controller.h"
+#include "EnemyAIController.h"
 
 void AFireFightGameMode::PawnKilled(APawn* PawnKilled) 
 {
@@ -16,15 +17,39 @@ void AFireFightGameMode::PawnKilled(APawn* PawnKilled)
     }
 
     // Check if there are any remaining AI controllers left in world:
+    // for(AEnemyAIController* EnemyController : TActorRange<AEnemyAIController>(GetWorld()))
+    // {
+    //     if(!EnemyController->IsDead())
+    //     {
+    //         return;
+    //     }
+    // }
+    if (getRemainingEnemies() > 0)
+    {
+        return;
+    }
+    else
+    {
+        EndGame(true);
+    }
+}
+
+int AFireFightGameMode::getRemainingEnemies() const
+{
+    
+    int numEnemies = 0;
+    
+    // Count number of alive enemies in world
     for(AEnemyAIController* EnemyController : TActorRange<AEnemyAIController>(GetWorld()))
     {
         if(!EnemyController->IsDead())
         {
-            return;
+            numEnemies++;
         }
     }
 
-    EndGame(true);
+    return numEnemies;
+
 }
 
 void AFireFightGameMode::EndGame(bool bIsPlayerWinner) 

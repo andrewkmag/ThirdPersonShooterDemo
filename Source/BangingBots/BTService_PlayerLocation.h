@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/Services/BTService_BlackboardBase.h"
-#include "BehaviorTree/BlackboardComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
 #include "BTService_PlayerLocation.generated.h"
 

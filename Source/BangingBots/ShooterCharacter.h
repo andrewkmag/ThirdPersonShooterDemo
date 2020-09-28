@@ -3,13 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/InputComponent.h"
-#include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
-#include "Gun.h"
-#include "Engine/World.h"
-#include "BangingBotsGameModeBase.h"
 #include "ShooterCharacter.generated.h"
+
+class AGun;
 
 UCLASS()
 class BANGINGBOTS_API AShooterCharacter : public ACharacter

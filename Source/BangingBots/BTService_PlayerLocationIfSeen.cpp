@@ -2,6 +2,9 @@
 
 
 #include "BTService_PlayerLocationIfSeen.h"
+#include "AIController.h"
+#include "Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
 
 UBTService_PlayerLocationIfSeen::UBTService_PlayerLocationIfSeen()
 {
